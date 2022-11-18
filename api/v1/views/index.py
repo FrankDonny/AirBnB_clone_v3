@@ -2,11 +2,11 @@
 from flask import jsonify
 from api.v1.views import app_views
 from models import storage
-# from os import getenv
 
 
 @app_views.route("/status")
 def status():
+    """return a status OK response"""
     return jsonify({"status": "OK"})
 
 
