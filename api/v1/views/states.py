@@ -40,7 +40,9 @@ def get_state(state_id=None):
         new_state = request.get_json(silent=True)
         if new_state is None:
             abort(400, "Not a JSON")
+        id_list = []
         for k, v in objects.items():
+            id_list.append(k.split(".")[1])
             if k.split(".")[1] == state_id:
                 key_list = ['id', 'created_at', 'updated_at']
                 for ky, val in new_state.items():
@@ -49,8 +51,8 @@ def get_state(state_id=None):
                     setattr(v, ky, val)
                 storage.save()
                 return jsonify(v.to_dict())
-            else:
-                abort(404)
+        if state_id not in id_list:
+            abort(404)
     else:
         id_list = []
         for key, value in objects.items():
