@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""This module handles default states requests"""
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 
