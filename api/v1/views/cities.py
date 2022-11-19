@@ -4,7 +4,8 @@ from flask import abort, request
 from api.v1.views import app_views
 
 
-@app_views.route("/states/<state_id>/cities", methods=["GET", "POST"])
+@app_views.route("/states/<state_id>/cities", methods=["GET", "POST"],
+                 strict_slashes=False)
 def all_cities(state_id=None):
     """Return all cities depending on the state id"""
     from models import storage
@@ -34,7 +35,8 @@ def all_cities(state_id=None):
             return city.to_dict(), 201
 
 
-@app_views.route("/cities/<city_id>", methods=["GET", "DELETE", "PUT"])
+@app_views.route("/cities/<city_id>", methods=["GET", "DELETE", "PUT"],
+                 strict_slashes=False)
 def city_object(city_id):
     """Returns a city object"""
     from models import storage

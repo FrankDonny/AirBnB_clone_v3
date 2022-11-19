@@ -4,7 +4,8 @@ from flask import abort, request
 from api.v1.views import app_views
 
 
-@app_views.route("/amenities/<amenity_id>", methods=["GET", "DELETE", "PUT"])
+@app_views.route("/amenities/<amenity_id>", methods=["GET", "DELETE", "PUT"],
+                 strict_slashes=False)
 @app_views.route("/amenities", methods=["GET", "POST"])
 def all_amenities(amenity_id=None):
     from models import storage
