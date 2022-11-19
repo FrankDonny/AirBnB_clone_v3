@@ -6,7 +6,7 @@ from api.v1.views import app_views
 
 @app_views.route("/amenities/<amenity_id>", methods=["GET", "DELETE", "PUT"],
                  strict_slashes=False)
-@app_views.route("/amenities", methods=["GET", "POST"])
+@app_views.route("/amenities", methods=["GET", "POST"], strict_slashes=False)
 def all_amenities(amenity_id=None):
     from models import storage
     amenity_objects = storage.all("Amenity")

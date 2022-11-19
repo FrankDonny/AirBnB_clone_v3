@@ -4,8 +4,9 @@ from flask import jsonify, abort, request
 from api.v1.views import app_views
 
 
-@app_views.route("/states/<state_id>", methods=["GET", "PUT", "DELETE"])
-@app_views.route("/states/", methods=["GET", "POST"])
+@app_views.route("/states/<state_id>", methods=["GET", "PUT", "DELETE"],
+                 strict_slashes=False)
+@app_views.route("/states/", methods=["GET", "POST"], strict_slashes=False)
 def get_state(state_id=None):
     """method to handle get request of state objects"""
     from models import storage
