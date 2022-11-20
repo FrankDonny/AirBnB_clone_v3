@@ -6,7 +6,7 @@ from api.v1.views import app_views
 
 @app_views.route("/states/<state_id>/cities", methods=["GET", "POST"],
                  strict_slashes=False)
-def all_cities(state_id=None):
+def all_cities(state_id):
     """Return all cities depending on the state id"""
     from models import storage
     state_objects = storage.all("State")
@@ -15,12 +15,9 @@ def all_cities(state_id=None):
     if state_id not in state_id_list:
         abort(404)
     if request.method == "GET":
-        all__cities = []
-        for key, value in city_objects.items():
-            if value.state_id == state_id:
-                all__cities.append(value.to_dict())
-        return all__cities
-    else:
+        return [value.to_dict() for value in city_objects.values()
+                if value.state_id == state_id], 200
+    if request.method == "POST":
         new_city = request.get_json(silent=True)
         if not isinstance(new_city, dict):
             abort(400, "Not a JSON")
@@ -44,27 +41,24 @@ def city_object(city_id):
     cities_id_list = [k.split(".")[1] for k, v in city_objects.items()]
     if city_id not in cities_id_list:
         abort(404)
-    for key, value in city_objects.items():
-        if value.id == city_id:
-            if request.method == "DELETE":
-                storage.delete(value)
-                storage.save()
-                return {}
-            elif request.method == "GET":
-                return value.to_dict()
-            else:
-                new_city = request.get_json(silent=True)
-                if not isinstance(new_city, dict):
-                    abort(400, "Not a JSON")
-                else:
-                    id_list = []
-                    for k, v in city_objects.items():
-                        id_list.append(k.split(".")[1])
-                        if k.split(".")[1] == city_id:
-                            key_list = ['id', 'created_at', 'updated_at']
-                            for ky, val in new_city.items():
-                                if ky in key_list:
-                                    continue
-                                setattr(v, ky, val)
-                            storage.save()
-                            return v.to_dict()
+    if request.method == "GET":
+        value = storage.get("City", city_id)
+        return value.to_dict()
+    if request.method == "DELETE":
+        value = storage.get("City", city_id)
+        storage.delete(value)
+        storage.save()
+        storage.close()
+        return {}, 200
+    if request.method == "PUT":
+        value = storage.get("City", city_id)
+        new_add = request.get_json(silent=True)
+        if not isinstance(new_add, dict):
+            abort(400, "Not a JSON")
+        ignore = ["id", "created_at", "updated_at"]
+        for key, val in new_add.items():
+            if key in ignore:
+                continue
+            setattr(value, key, val)
+            storage.save()
+        return value.to_dict(), 200
