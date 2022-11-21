@@ -3,7 +3,6 @@
 Contains the class DBStorage
 """
 
-import models
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
 from models.city import City
@@ -12,7 +11,6 @@ from models.review import Review
 from models.state import State
 from models.user import User
 from os import getenv
-import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -72,15 +70,15 @@ class DBStorage:
         self.__session = Session
 
     def close(self):
-        """call remove() method on the private session attribute"""
-        self.__session.remove()
+        """this method releases any connection/transactional
+        resources owned by the Session"""
+        self.__session.close()
 
     def get(self, cls, id):
         """method to get objects"""
         for obj in self.all(cls).values():
             if obj.id == id:
                 return obj
-        else:
             return None
 
     def count(self, cls=None):
