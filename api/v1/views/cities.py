@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 """This module handles default cities requests"""
+<<<<<<< HEAD
+from flask import abort, request, jsonify
+=======
 from flask import abort, request
+>>>>>>> 0117a8b48a201e955532113ea7ad9b02cb440a49
 from api.v1.views import app_views
 
 
@@ -15,8 +19,13 @@ def all_cities(state_id):
     if state_id not in state_id_list:
         abort(404)
     if request.method == "GET":
+<<<<<<< HEAD
+        return jsonify([value.to_dict() for value in city_objects.values()
+                if value.state_id == state_id])
+=======
         return [value.to_dict() for value in city_objects.values()
                 if value.state_id == state_id], 200
+>>>>>>> 0117a8b48a201e955532113ea7ad9b02cb440a49
     if request.method == "POST":
         new_city = request.get_json(silent=True)
         if not isinstance(new_city, dict):
