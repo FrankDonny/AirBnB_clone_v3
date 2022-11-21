@@ -55,10 +55,10 @@ def city_object(city_id):
         new_add = request.get_json(silent=True)
         if not isinstance(new_add, dict):
             abort(400, "Not a JSON")
-        ignore = ["id", "created_at", "updated_at"]
+        ignore = ["id", "created_at", "updated_at", "user_id", "city_id"]
         for key, val in new_add.items():
             if key in ignore:
                 continue
             setattr(value, key, val)
-            storage.save()
+        storage.save()
         return value.to_dict(), 200
