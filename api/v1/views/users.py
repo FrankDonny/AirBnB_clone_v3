@@ -1,10 +1,6 @@
 #!/usr/bin/python3
 """This module handles default users requests"""
-<<<<<<< HEAD
 from flask import abort, request, jsonify
-=======
-from flask import abort, request
->>>>>>> 0117a8b48a201e955532113ea7ad9b02cb440a49
 from api.v1.views import app_views
 
 
@@ -13,12 +9,8 @@ def users():
     """route function for GET and POST"""
     from models import storage
     if request.method == "GET":
-<<<<<<< HEAD
         return jsonify([value.to_dict()
                         for value in storage.all("User").values()])
-=======
-        return [value.to_dict() for value in storage.all("User").values()]
->>>>>>> 0117a8b48a201e955532113ea7ad9b02cb440a49
     if request.method == "POST":
         new_user = request.get_json(silent=True)
         if type(new_user) != dict:
