@@ -47,8 +47,8 @@ def delete_state(state_id):
     id_list = [key.split(".")[1] for key in storage.all("State").keys()]
     if state_id not in id_list:
         abort(404)
-    value = storage.get("State", state_id)
-    storage.delete(value)
+    state = storage.get("State", state_id)
+    storage.delete(state)
     storage.save()
     storage.close()
     return {}, 200
