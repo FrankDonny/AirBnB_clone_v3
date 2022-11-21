@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 """This module handles default states requests"""
+<<<<<<< HEAD
+from flask import abort, request, jsonify
+=======
 from flask import abort, request
+>>>>>>> 0117a8b48a201e955532113ea7ad9b02cb440a49
 from api.v1.views import app_views
 
 
@@ -22,7 +26,11 @@ def states_obj():
             storage.save()
             return state.to_dict(), 201
     if request.method == "GET":
+<<<<<<< HEAD
+        return jsonify([value.to_dict() for value in objects.values()])
+=======
         return [value.to_dict() for value in objects.values()]
+>>>>>>> 0117a8b48a201e955532113ea7ad9b02cb440a49
 
 
 @app_views.route("/states/<state_id>", methods=["GET", "PUT", "DELETE"],
