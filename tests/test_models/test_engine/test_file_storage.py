@@ -29,7 +29,6 @@ class TestFileStorageDocs(unittest.TestCase):
         """Set up for the doc tests"""
         cls.fs_f = inspect.getmembers(FileStorage, inspect.isfunction)
 
-
     def test_file_storage_module_docstring(self):
         """Test for the file_storage.py module docstring"""
         self.assertIsNot(file_storage.__doc__, None,
@@ -98,3 +97,19 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing db storage")
+    def test_get(self):
+        """Test that test for object not none"""
+        # from models import storage
+        # id_ = "a4b4fe4d-0a9c-40f8-befa-412c83b1471f"
+        # obj = storage.get(State, id_)
+        # self.assertIsInstance(obj, State)
+        # self.assertIsNotNone(obj)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing db storage")
+    def test_count(self):
+        """Test for counting objects"""
+        # from models import storage
+        # count = storage.count(State)
+        # self.assertIsNotNone(count)
