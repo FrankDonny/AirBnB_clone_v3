@@ -16,7 +16,7 @@ def create_state():
     """route function for POST method"""
     from models import storage
     new_state = request.get_json(silent=True)
-    if type(new_state) != dict:
+    if not isinstance(new_state, dict):
         abort(400, "Not a JSON")
     if "name" not in new_state.keys():
         abort(400, "Missing name")
@@ -25,7 +25,7 @@ def create_state():
         state = State(**new_state)
         storage.new(state)
         storage.save()
-        return state.to_dict(), 201
+        return jsonify(state.to_dict()), 201
 
 
 @app_views.route("/states/<state_id>", methods=["GET"], strict_slashes=False)
@@ -36,7 +36,7 @@ def get_state(state_id):
     if state_id not in id_list:
         abort(404)
     state_obj = storage.get("State", state_id)
-    return state_obj.to_dict()
+    return jsonify(state_obj.to_dict())
 
 
 @app_views.route("/states/<state_id>", methods=["DELETE"],
@@ -62,7 +62,7 @@ def update_state(state_id):
     if state_id not in id_list:
         abort(404)
     new_state = request.get_json(silent=True)
-    if type(new_state) != dict:
+    if not isinstance(new_state, dict):
         abort(400, "Not a JSON")
     state_obj = storage.get("State", state_id)
     key_list = ['id', 'created_at', 'updated_at']
