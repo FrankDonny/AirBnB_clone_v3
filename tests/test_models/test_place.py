@@ -20,7 +20,6 @@ class TestPlaceDocs(unittest.TestCase):
         """Set up for the doc tests"""
         cls.place_f = inspect.getmembers(Place, inspect.isfunction)
 
-
     def test_place_module_docstring(self):
         """Test for the place.py module docstring"""
         self.assertIsNot(place.__doc__, None,
